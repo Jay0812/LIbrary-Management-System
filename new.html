@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Library Management Page</title>
+  <link rel="stylesheet" href="new.css">
+  
+</head>
+<body>
+  <h1>Library Management Section</h1>
+  
+  <div class="filter-form">
+
+    <h2>Filter Books</h2>
+
+    <form id="filterForm">
+      <div>
+        <label for="filterTitle"></label>
+        <input type="text" id="filterTitle" name="filterTitle" placeholder="Enter title">
+      </div>
+      <br>
+      
+      <div>
+        <label for="filterAuthor"></label>
+        <input type="text" id="filterAuthor" name="filterAuthor" placeholder="Enter author">
+      </div>
+      <br>
+      
+      <div>
+        <label for="filterSubject"></label>
+        <input type="text" id="filterSubject" name="filterSubject" placeholder="Enter subject">
+      </div>
+      <br>
+      
+      <div>
+        <label for="filterPublishDate"></label>
+        <input type="date" id="filterPublishDate" name="filterPublishDate">
+      </div>
+      <br><br>
+      
+      <input type="submit" value="Filter">
+    </form>
+  </div>
+  
+  <table id="bookTable">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Subject</th>
+        <th>Publish Date</th>
+      </tr>
+    </thead>
+    <tbody id="bookList">
+      <!-- Book entries will be dynamically added here -->
+    </tbody>
+  </table>
+
+  <div id="pagination">
+    <!-- Pagination links will be dynamically added here -->
+  </div>
+  
+  <script>
+    var books = [
+      {
+        "title": "Don Quixote",
+        "author": "Miguel Cervantes",
+        "publishDate": "16-01-1605",
+        "subject": "Historical Fiction"
+      },
+      {
+        "title": "The Lord of the Rings",
+        "author": "J.R.R. Tolkien",
+        "publishDate": "29-06-1954",
+        "subject": "Adventure"
+      },
+      {
+        "title": "Tale of Two Cities",
+        "author": "Charles Dickens",
+        "publishDate": "26-11-1859",
+        "subject": "Sci-Fi"
+      },
+      {
+        "title": "Alice's Adventures in Wonderland",
+        "author": "Lewis Carroll",
+        "publishDate": "11-1865",
+        "subject": "Fiction"
+      },
+      {
+        "title": "Harry Potter and the Philosopher's Stone",
+        "author": "J.K. Rowling",
+        "publishDate": "26-06-1997",
+        "subject": "Fiction"
+      },
+      {
+        "title": "Dream of the Red Chamber",
+        "author": "Cao Xueqin",
+        "publishDate": "1791",
+        "subject": "Family saga"
+      },
+      {
+        "title": "And Then There Were None",
+        "author": "Agatha Christie",
+        "publishDate": "06-11-1939",
+        "subject": "Thriller"
+      },
+      {
+        "title": "She: A History of Adventure",
+        "author": "H. Rider Haggard",
+        "publishDate": "1887",
+        "subject": "Romance novel"
+      },
+      {
+        "title": "Ponniyin Selvan",
+        "author": "Kalki",
+        "publishDate": "1954",
+        "subject": "Historical fiction"
+      },
+      {
+        "title": "The Adventures of Pinocchio",
+        "author": "Carlo Collodi",
+        "publishDate": "02-1853",
+        "subject": "Fantasy"
+      },
+      {
+        "title": "The Da Vinci Code",
+        "author": "Dan Brown",
+        "publishDate": "18-03-2003",
+        "subject": "Thriller"
+      }
+    ];
+
+    var filteredBooks = books.slice(); // Copy all books initially
+
+    var itemsPerPage = 10;
+    var currentPage = 1;
+
+    var filterForm = document.getElementById("filterForm");
+    var bookList = document.getElementById("bookList");
+    var pagination = document.getElementById("pagination");
+
+    filterForm.addEventListener("submit", handleFilterSubmit);
+
+    function handleFilterSubmit(event) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      var filterTitle = document.getElementById("filterTitle").value.toLowerCase();
+      var filterAuthor = document.getElementById("filterAuthor").value.toLowerCase();
+      var filterSubject = document.getElementById("filterSubject").value.toLowerCase();
+      var filterPublishDate = document.getElementById("filterPublishDate").value.toLowerCase();
+
+      filteredBooks = books.filter(function(book) {
+        var titleMatch = book.title.toLowerCase().includes(filterTitle);
+        var authorMatch = book.author.toLowerCase().includes(filterAuthor);
+        var subjectMatch = book.subject.toLowerCase().includes(filterSubject);
+        var publishDateMatch = book.publishDate.toLowerCase().includes(filterPublishDate);
+
+        return titleMatch && authorMatch && subjectMatch && publishDateMatch;
+      });
+
+      currentPage = 1;
+      generateBookRows();
+      generatePaginationLinks();
+    }
+
+    function generateBookRows() {
+      bookList.innerHTML = ""; // Clear existing entries
+
+      var startIndex = (currentPage - 1) * itemsPerPage;
+      var endIndex = startIndex + itemsPerPage;
+      var pageBooks = filteredBooks.slice(startIndex, endIndex);
+
+      for (var i = 0; i < pageBooks.length; i++) {
+        var book = pageBooks[i];
+
+        var row = document.createElement("tr");
+
+        var titleCell = document.createElement("td");
+        titleCell.textContent = book.title;
+        row.appendChild(titleCell);
+
+        var authorCell = document.createElement("td");
+        authorCell.textContent = book.author;
+        row.appendChild(authorCell);
+
+        var subjectCell = document.createElement("td");
+        subjectCell.textContent = book.subject;
+        row.appendChild(subjectCell);
+
+        var publishDateCell = document.createElement("td");
+        publishDateCell.textContent = book.publishDate;
+        row.appendChild(publishDateCell);
+
+        bookList.appendChild(row);
+      }
+    }
+
+    function generatePaginationLinks() {
+      pagination.innerHTML = ""; // Clear existing links
+
+      var pageCount = Math.ceil(filteredBooks.length / itemsPerPage);
+
+      for (var i = 1; i <= pageCount; i++) {
+        var link = document.createElement("a");
+        link.href = "#";
+        link.textContent = i;
+
+        if (i === currentPage) {
+          link.classList.add("active");
+        }
+
+        link.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          currentPage = parseInt(this.textContent);
+          generateBookRows();
+          generatePaginationLinks();
+        });
+
+        pagination.appendChild(link);
+      }
+    }
+
+    generateBookRows();
+    generatePaginationLinks();
+  </script>
+</body>
+</html>
+
+       
+
+
+ 

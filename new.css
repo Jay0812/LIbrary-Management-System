@@ -1,0 +1,104 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-image: url(bts.jpg);
+    
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: brightness(1);
+  }
+  
+  h1 {
+    color: #f6edfc;
+    position: absolute;
+    left: 500px;
+   
+  }
+  
+  .filter-form {
+    
+    padding: 20px;
+    position: relative;
+    top: 30px;
+    left: 600px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-form h2 {
+    color: #dfdde1;
+    margin-bottom: 60px;
+    left: 60px;
+  }
+  
+  #filterForm label {
+    font-weight: bold;
+  }
+  
+  #filterForm input[type="text"],
+  #filterForm input[type="date"] {
+    padding: 8px;
+    width: 200px;
+  }
+  
+  #filterForm input[type="submit"] {
+    padding: 8px 16px;
+    background-color: #6a1b9a;
+    color: rgba(248, 243, 243, 0.888);
+    border: none;
+    cursor: pointer;
+  }
+  
+  #filterForm input[type="submit"]:hover {
+    background-color: #4a148c;
+  }
+  
+  table {
+    width: 50%;
+    margin-left: auto;
+  margin-right: auto;
+    
+    left: 500px;
+    border-collapse: collapse;
+    background-color: #fff;
+  }
+  
+  thead {
+    background-color: #4f1671;
+    /*color: white;*/
+  }
+  
+  th,
+  td {
+    padding: 10px;
+    text-align: left;
+    /*border-bottom: 1px solid #ddd;*/
+  }
+  
+  th:first-child,
+  td:first-child {
+    border-left: none;
+  }
+  
+  th:last-child,
+  td:last-child {
+    border-right: none;
+  }
+  
+  #pagination {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  #pagination a {
+    display: inline-block;
+    padding: 8px;
+    color: #6a1b9a;
+  }
+  
+  #pagination a.active {
+    background-color: #6a1b9a;
+    color: white;
+  }
+  
+  
